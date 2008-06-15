@@ -44,9 +44,13 @@ class GitSsh::Command
       o.separator ""
       o.separator "Options:"
 
-      o.on('-v', '--verbose', 'Be verbose') { @options.verbose = true }
       o.on '-r DIR', '--chroot=DIR', 'Chroot the user' do |value|
 	@options.chroot = value
+      end
+      o.on('-v', '--verbose', 'Be verbose') { @options.verbose = true }
+      o.on('-V', '--version', 'Get the version') do
+	puts "#$0 v#{GitSsh::VERSION}"
+	exit 0
       end
     end
   end
