@@ -3,6 +3,8 @@ class GitSsh::Command
   COMMANDS_RE = /^(git-(?:receive|upload)-pack) '(.*)'$/o
   ROOT_PATH = "/var/git_repositories"
 
+  class UsageError < Exception; end
+
   def initialize(*args)
     raise "What do you think I am? A shell?" unless ENV.keys.include?("SSH_ORIGINAL_COMMAND")
     if mg = COMMANDS_RE.match(ENV['SSH_ORIGINAL_COMMAND'])
@@ -11,19 +13,17 @@ class GitSsh::Command
     else raise "It seems dangerous"
     end
 
-    unless args.size == 1 && args.first =~ /^\w+$/
-      STDERR.puts "#$0 usage: #$0 <user>"
-      exit 2
-    end
+    raise UsageError, "#$0 usage: #$0 <user>" unless args.size == 1 && args.first =~ /^\w+$/
     @user = args.first
   end
 
   def run
-    path = File.join(ROOT_PATH, @path)
-    cmd = [@command, path]
-
-    exec *cmd
+    exec *command_line
     STDERR.puts "Exec sucked!"
+  end
+
+  def command_line
+    [@command, File.join(ROOT_PATH, @path)]
   end
 
   private
