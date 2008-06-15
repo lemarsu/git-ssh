@@ -29,8 +29,8 @@ class GitSsh::Command
   private
 
   def sanitize_path(path)
-    return path unless path[0] == ?/
-    File.expand_path(File.join('/', path))
+    test_path = path[0] == ?/ ? path : File.join('/', path)
+    File.expand_path(test_path)
   end
 
 end
