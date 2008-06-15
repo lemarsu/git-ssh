@@ -3,7 +3,6 @@ require 'optparse'
 class GitSsh::Command
 
   COMMANDS_RE = /^(git-(?:receive|upload)-pack) '(.*)'$/o
-  ROOT_PATH = "/var/git_repositories"
   SSH_COMMAND = 'SSH_ORIGINAL_COMMAND'
 
   class UsageError < Exception; end
@@ -22,7 +21,8 @@ class GitSsh::Command
   end
 
   def command_line
-    [@command, File.join(ROOT_PATH, @path)]
+    path = @options.chroot ? File.join(@options.chroot, @path) : @path
+    [@command, path]
   end
 
   private
@@ -52,8 +52,10 @@ class GitSsh::Command
   end
 
   def parse_ssh_original_command
-    raise ShellError, "What do you think I am? A shell?" unless ENV.keys.include?(SSH_COMMAND)
-    raise ShellError, "It seems dangerous" unless mg = COMMANDS_RE.match(ENV[SSH_COMMAND])
+    raise ShellError, "What do you think I am? A shell?" unless
+      ENV.keys.include?(SSH_COMMAND)
+    raise ShellError, "It seems dangerous" unless
+      mg = COMMANDS_RE.match(ENV[SSH_COMMAND])
     @command = mg[1]
     @path = sanitize_path mg[2]
   end
