@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'git-ssh'
+rescue LoadError 
+  path = File.expand_path(File.join(File.dirname(__FILE__),"..","lib"))
+  raise if $:.include?(path)
+  $: << path
+  retry
+end
+
+COMMANDS_RE = /(git-(?:receive|upload)-pack) '(.*)'/o
+
+unless ENV.keys.include?("SSH_ORIGINAL_COMMAND")
+  STDERR.puts "What do you think I am? A shell?"
+  exit 2
+end
+
+unless ARGV.size == 1 and ARGV.first =~ /^\w+$/
+  STDERR.pust "#$0 usage: #$0 <user>"
+  exit 2
+end
+
+STDERR.puts "Command line : #{ARGV.inspect}"
+STDERR.puts "ENV : #{ENV.inspect}"
+
+cmd, path = ENV["SSH_ORIGINAL_COMMAND"].split(' ')
+path = path[1..-2]
+path = File.join(ARGV.first, path)
+cmd = [cmd, "#{path}"]
+STDERR.puts "CMD : #{cmd.join(' ')}"
+
+exec *cmd
+STDERR.puts "Exec sucked!"
+
+
+# vim: ts=8 sw=2
+# vim70: fdm=syntax fdl=1
