@@ -7,7 +7,7 @@ require 'rake/clean'
 require 'rake/rdoctask'
 require 'rake/contrib/sshpublisher'
 
-require 'git_ssh'
+require 'git-ssh'
 
 load 'tasks/setup.rb'
 
