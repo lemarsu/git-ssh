@@ -11,11 +11,11 @@ end
 
 begin
   GitSsh::Command.new(*ARGV).run
-rescue StandardError
-  STDERR.puts "What do you think I am? A shell?"
+rescue GitSsh::Command::ShellError => ex
+  STDERR.puts ex.message
 rescue GitSsh::Command::UsageError => ex
   STDERR.puts ex.message
-rescue ex
+rescue Exception => ex
   # For debug
   raise
 end
