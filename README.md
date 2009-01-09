@@ -7,7 +7,7 @@ DESCRIPTION
 ===========
 
 <tt>git-ssh</tt> can force your ssh server to handle only git requests. You can
-allow your users to pull or push, but not to login or to do scf or sftp.
+allow your users to pull or push, but not to login or to do scp or sftp.
 
 FEATURES
 ========
