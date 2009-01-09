@@ -1,6 +1,11 @@
 git-ssh Changelog
 =================
 
+WIP
+---
+
++ Made Readme and Changelog compatible with markadown
+
 Version 0.2.0
 -------------
 
