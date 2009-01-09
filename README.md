@@ -1,13 +1,13 @@
 git-ssh
 =======
 
-<tt>git-ssh</tt> is a proxy to serve git repositories over ssh.
+`git-ssh` is a proxy to serve git repositories over ssh.
 
 DESCRIPTION
 ===========
 
-<tt>git-ssh</tt> can force your ssh server to handle only git requests. You can
-allow your users to pull or push, but not to login or to do scp or sftp.
+`git-ssh` can force your ssh server to handle only git requests. You can allow
+your users to pull or push, but not to login or to do scp or sftp.
 
 FEATURES
 ========
@@ -16,6 +16,7 @@ FEATURES
 + Can chroot to a directory to limit access of the repository server.
 
 Later :
+
 + Can allow read, write or none access to a repository on a user basis.
 
 SYNOPSIS
