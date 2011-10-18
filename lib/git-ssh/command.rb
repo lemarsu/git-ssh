@@ -33,7 +33,7 @@ class GitSsh::Command
     parser = get_parser
     args_left = parser.parse!(@args)
     raise UsageError, "#$0 usage: #$0 <user>" unless
-      args_left.size == 1 && args_left.first =~ /^\w+$/
+      args_left.size == 1 && args_left.first =~ /^\S+$/
     @user = @args.first
   end
 
